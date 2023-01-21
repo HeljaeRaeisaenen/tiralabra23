@@ -25,23 +25,24 @@ The Markov chain is a stochastic model.[1] In essence it describes the process o
 ### Trie
 Trie is a tree structure.[2] Each node except the root has a value (a word in this case), and children. Usually when it comes to tries, each node is considered a letter of some alphabet or encoding. In this case, the alphabet consists of the words of a natural language (English or Finnish). These words are 'learned' from a corpus of training material. Moving down the tree creates a sequence of words. 
 
-The children have probabilities attached, based on how often the child's value follows its parent's value in the training material. For example, "a red apple" is a fairly common phrase, wheareas "a red cucumber" is very rare. Picking the more common option is thought to create more meaningluf, or 'convincing-appearing' sentences. The transition from 'red' to 'cucumber' might not even be possible, if this hasn't happened in the training material. 
+The children have frequencies attached, based on how often the child's value follows its parent's value in the training material. For example, "a red apple" is a fairly common phrase, wheareas "a red cucumber" is very rare. Picking the more common option is thought to create more meaningful, or 'convincing-appearing' sentences. The transition from 'red' to 'cucumber' might not even be possible, if this hasn't happened in the training material. 
 
-This is where a Markov chain process is involved. Each node is a state in a Markov chain. The next state can only be a child of the current state. Which of the children is picked is based on a weighted random choice which favours the more common children. What is more common is 'learned' from the training material.
+This is where a Markov chain is involved. The nodes of the trie make up the state space of the chain. At a given state, the next state can only be a child of the current state. Which of the children is picked is based on a weighted random choice which favours the more common children. What is more common is 'learned' from the training material.
 
 ## Time and space complexities
 A well-made trie works in constant time, it's time complexity in a worst case scenario is O(n).[2] Thus the generation of a sentence should happen relatively efficiently.
 
 However, a trie can be very inefficient when it comes to space. This is probably not a problem.
 
-Determining which words are likely to follow each other demands a large amount of training data. Processing this data is likely a very time-consuming process. Storing the learned information on the computer in an easily accessible form would bypass the need to process the training data on each run.
+Determining which words are likely to follow each other demands a large amount of training data. Processing this data can be a very time-consuming process. Storing the learned information on the computer in an easily accessible form would bypass the need to train the model on each run.
+
+A Markov chain isn't an algorithm so it doesn't demand time complexity analysis. Neither is it a data structure.
 
 ## Functionality
-The application will have a command-line, text-based user interface. A user can input a word, which will be the first word of the generated sentence. It is searched for among the children of the trie's root. If it isn't present in the training material, the user will be prompted to try another one. Otherwise a Markov process will then generate a sentence, which will be displayed to the user. 
-
-Other functionality will likely be added.
+The application will have a command-line, text-based user interface. A user can input a word, which will be the first word of the generated sentence. It is searched for in the trie. If it isn't present in the training material, the user will be prompted to try another one. Otherwise a Markov process will then generate a sentence, which will be displayed to the user. 
 
 ## References
 [1] https://en.wikipedia.org/wiki/Markov_chain
+
 [2] https://en.wikipedia.org/wiki/Trie
 

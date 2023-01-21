@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "tiralabra23"
+version = "0.1.0"
+description = ""
+authors = ["HeljaeRaeisaenen <94612974+HeljaeRaeisaenen@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+invoke = "^2.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.1"
+coverage = "^7.0.5"
+pylint = "^2.15.10"
+autopep8 = "^2.0.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
