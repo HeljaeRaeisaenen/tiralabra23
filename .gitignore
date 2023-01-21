@@ -1,5 +1,4 @@
 data/
-src/tests/testdata/
 __pycache__
 .pytest_cache
 .coverage
