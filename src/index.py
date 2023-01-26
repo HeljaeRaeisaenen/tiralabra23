@@ -1,10 +1,10 @@
 
 from read_file import read_file
 
-sentences = read_file('tests/testdata/catsanddogs.txt')  # ../data/alice.txt
+sentences = read_file('../data/viehattava.txt') #tests/testdata/catsanddogs.txt
 ALPHABET = set()
 ALPHABET.update(*sentences)
 
 
-# print(sentences)
-# print(ALPHABET)
+#print(sentences)
+#print(ALPHABET)

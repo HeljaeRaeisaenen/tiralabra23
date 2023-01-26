@@ -26,7 +26,9 @@ class Node:
         children = []
         for key, child in self.children.items():
             if child:
-                children.append[child]
+                children.append(child)
+    
+        return children
 
 
     def __repr__(self):
@@ -45,7 +47,10 @@ class Trie:
 
     def __init__(self, root, sentences):
         self.root = root
+        self.lookup = {}
 
+        for word in ALPHABET:
+            self.lookup[word] = set()
         for sentence in sentences:
             self.insert(sentence)
 
@@ -61,11 +66,26 @@ class Trie:
                 node.children[word] = Node(value=word)
                 # print('added ',node.children[word])
             node = node.children[word]
+            self.lookup[node.value].add(node)
         node.terminal = True
         # print('root ',self.root)
     
-    def search(self):
+    def search(self, key:list):
+        '''Search trie by a list of words.
+        Args:
+            key: a list of strings
+        Returns:
+            the node corresponding to the key in the trie'''
+        node = self.root
+        for word in key:
+            if not node.children[word]:
+                return False
+            node = node.children[word]
+        return node
 
+    def search_hack(self, key):
+        '''Searching through the whole trie is time consuming, hence lookup table'''
+        return self.lookup[key]
 
     def __repr__(self) -> str:
         return str(self.root)
