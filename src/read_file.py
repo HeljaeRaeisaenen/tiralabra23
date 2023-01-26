@@ -59,22 +59,22 @@ def split_into_sentences(text):
 
 
 def read_file(path):
-    with open(path) as file:
+    '''Turns a text document into a list of its sentences.
+    Args:
+        path: path of txt document
+    Returns:
+        a list containing sublists, each sublist a sentence of strings.'''
+    with open(path, encoding='utf-8') as file:
         file = file.read()
 
         file = file.replace('_', '')
 
         sentences = split_into_sentences(file)
         for i in range(0, len(sentences)):
-            # sentences becomes a list of lists of strings
             sentences[i] = sentences[i].split()
-            '''
-            #remove ending characters from sentences:
+            # remove ending characters from sentences:
             if sentences[i][-1][-1] in '.?!':
-                #print(sentences[i][-1])
                 sentences[i][-1] = sentences[i][-1][0:-1]
-                #print(sentences[i][-1])
             #add an end signal or whatever:
-            sentences[i].append('<end>')
-            '''
+            #sentences[i].append('<end>')
     return sentences
