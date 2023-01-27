@@ -12,6 +12,6 @@ class TestRead_file(unittest.TestCase):
 
         sentences = read_file(path)
 
-        self.assertEqual(sentences[0], ['I', 'like', 'cats'])
+        self.assertEqual(sentences[0], ['I', 'like', 'cats', '.'])
         self.assertEqual(sentences[-1], ['I', 'often', 'wonder', 'what',
-                         'is', 'it', 'like', 'to', 'be', 'a', 'cat', 'or', 'a', 'dog'])
+                         'is', 'it', 'like', 'to', 'be', 'a', 'cat', 'or', 'a', 'dog', '.'])
