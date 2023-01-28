@@ -10,7 +10,11 @@ def test(ctx):
 
 @task
 def coverage(ctx):
-    ctx.run("export COVERAGE_RCFILE=../.coveragerc && cd src/ && coverage run --branch -m pytest && coverage html && firefox htmlcov/index.html", pty=True)
+    ctx.run("export COVERAGE_RCFILE=../.coveragerc && cd src/ && coverage run --branch -m pytest && coverage html", pty=True)
+
+@task
+def report(ctx):
+    ctx.run("cd src/ && firefox htmlcov/index.html")
 
 @task
 def lint(ctx):
