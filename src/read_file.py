@@ -55,7 +55,7 @@ def split_into_sentences(text):
     sentences = [s.strip() for s in sentences]
     return sentences
 # end
-# btw text with urls gets absolutely mauled by this
+# btw text with urls gets ugly
 
 
 def read_file(path):
@@ -77,5 +77,7 @@ def read_file(path):
                 sentences[i][-1], end_char = sentences[i][-1][0:-
                                                               1], sentences[i][-1][-1]
                 sentences[i].append(end_char)
-            # sentences[i][0] = sentences[i][0].lower()
+
+            # un-capitalize first word
+            sentences[i][0] = sentences[i][0].lower()
     return sentences
