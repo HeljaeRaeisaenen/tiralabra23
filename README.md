@@ -29,4 +29,3 @@ A Tiralabra 2023 project (_Mark of processer_)
 2. Add a .txt file in the data folder. It should contain text.
 3. Run `python3 src/index.py` in the repository's root folder (not in data!)
 4. Give the name of the .txt file (not path!). For example, `example.txt`
-5. If this doesn't work then I made a mistake, sorry.
