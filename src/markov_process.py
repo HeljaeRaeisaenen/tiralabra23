@@ -28,15 +28,15 @@ class Markov:
         rule = word[-degree:]
 
         while True:
-            print(rule)
+            #print(rule)
             next_words = self.trie.search(rule)
             if not next_words:
                 break
-            for node in next_words:
-                print('     next node:', node.value)
+            #for node in next_words:
+                #print('     next node:', node.value)
             weights = self.calculate_weights(next_words)
             chosen_one = choices(next_words, cum_weights=weights, k=1)[0]
-            print('chosen: ', chosen_one.value, chosen_one.freq)
+            #print('chosen: ', chosen_one.value, chosen_one.freq)
             generated_sentence.append(chosen_one.value)
             rule = generated_sentence[-degree:]
 
@@ -106,9 +106,11 @@ class Markov:
         return output
 
     def random_word(self):
-        '''Get a random word of the alphabet.
+        '''Get a random word of the alphabet that can start a three-word sequence.
         Returns: string'''
-        return list(constants.ALPHABET)[0]
+        possible_starts = self.trie.root.give_children()
+        chosen = choices(possible_starts, k=1)
+        return chosen[0].value        
 
 
 '''

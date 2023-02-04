@@ -39,11 +39,7 @@ class Trie:
 
     def __init__(self, root, degree):
         self.root = root
-        # self.lookup = {}
         self.k = degree
-
-        # for word in constants.ALPHABET:
-        #    self.lookup[word] = set()
 
     def fill_with_words(self):
         '''Populate the trie with the source material. Adds rules of the Markov process to the
@@ -60,7 +56,7 @@ class Trie:
         '''Insert a list of words into the trie'''
         # print(key)
         node = self.root
-        print(key)
+        #print(key)
         for word in key:
             if word not in node.children.keys():
                 # print(word, node.children[word])
@@ -68,7 +64,6 @@ class Trie:
                 # print('added ',node.children[word])
             node = node.children[word]
             node.freq += 1
-            # self.lookup[node.value].add(node)
         node.terminal = True
         # print('root ',self.root)
 
@@ -81,7 +76,7 @@ class Trie:
         node = self.root
         for word in key:
             if word not in node.children:
-                print('nope')
+                #print('nope')
                 return False
             node = node.children[word]
         return node.give_children()

@@ -13,7 +13,7 @@ class TestTrieAndNode(unittest.TestCase):
         sentence = self.sentences[0]
         self.trie.insert(sentence)
 
-    def test_node(self):
+    def test_node_exists(self):
         node = Node()
         x = node.give_children()
 
