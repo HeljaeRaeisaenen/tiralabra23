@@ -11,13 +11,19 @@ A Tiralabra 2023 project (_Mark of processer_)
 ## Requirements specification
 [link](documentation/requirements_specification.md)
 
-## How to run the program
+## Commands
+#### First:
 1. Copy the repository on your own machine
 2. Go to the folder of the repository
 3. Run `poetry install`
-4. Create a folder named `data` in the repository folder. It should be on the same level as `src`
-5. Add a .txt file in the data folder. It should contain text.
-6. Run `python3 src/index.py` in the repository's root folder (not in data!)
-7. Give the name of the .txt file (not path!). For example, `example.txt`
-8. If this doesn't work then I made a mistake, sorry.
-9. The sentence is generated randomly, not via a Markov process (yet)
+
+#### To run pylint: `poetry run invoke lint`
+
+#### To run tests: `poetry run invoke test` 
+
+#### To to run the program:
+1. Create a folder named `data` in the repository folder. It should be on the same level as `src`
+2. Add a .txt file in the data folder. It should contain text.
+3. Run `python3 src/index.py` in the repository's root folder (not in data!)
+4. Give the name of the .txt file (not path!). For example, `example.txt`
+5. If this doesn't work then I made a mistake, sorry.
