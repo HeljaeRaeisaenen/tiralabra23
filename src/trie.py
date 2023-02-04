@@ -12,7 +12,7 @@ class Node:
     def __init__(self, value=None, terminal=False):
         self.children = {}
         self.value = value
-        self.terminal = terminal #this isn't realöy needed
+        self.terminal = terminal  # this isn't realöy needed
         self.freq = 0
 
     def give_children(self):
@@ -56,7 +56,7 @@ class Trie:
         '''Insert a list of words into the trie'''
         # print(key)
         node = self.root
-        #print(key)
+        # print(key)
         for word in key:
             if word not in node.children.keys():
                 # print(word, node.children[word])
@@ -76,7 +76,7 @@ class Trie:
         node = self.root
         for word in key:
             if word not in node.children:
-                #print('nope')
+                # print('nope')
                 return False
             node = node.children[word]
         return node.give_children()

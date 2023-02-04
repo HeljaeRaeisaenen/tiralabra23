@@ -23,8 +23,8 @@ class TestMarkovProcess(unittest.TestCase):
 
         result = self.markov.generate_sentence(w, 2)
 
-        self.assertIn('I',result)
-        self.assertIn('like',result)
+        self.assertIn('I', result)
+        self.assertIn('like', result)
 
         test = ('cats' in result) or ('oranges' in result)
         self.assertTrue(test)
@@ -37,7 +37,7 @@ class TestMarkovProcess(unittest.TestCase):
         result = self.markov.generate_sentence(w, 2)
 
         self.assertEqual('You like melons?', result)
-    
+
     def test_generating_sentence_possible_with_no_starting_word(self):
         self.markov.trie.fill_with_words()
 
