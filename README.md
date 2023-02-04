@@ -8,6 +8,9 @@ A Tiralabra 2023 project (_Mark of processer_)
 
 [week 2](documentation/weekly_reports/week_report2.md)
 
+[week 3](documentation/weekly_reports/week_report3.md)
+
+
 ## Requirements specification
 [link](documentation/requirements_specification.md)
 
