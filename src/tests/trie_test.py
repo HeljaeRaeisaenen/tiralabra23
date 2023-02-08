@@ -6,7 +6,7 @@ import constants
 class TestTrieAndNode(unittest.TestCase):
     def setUp(self):
         path = 'tests/testdata/catsanddogs.txt'
-        constants.init(path)
+        constants.initialize(path)
 
         self.sentences = constants.SENTENCES
         self.trie = Trie(Node(), 2)

@@ -8,7 +8,7 @@ from trie import Trie, Node
 class TestMarkovProcess(unittest.TestCase):
     def setUp(self):
         path = 'tests/testdata/ilike.txt'
-        constants.init(path)
+        constants.initialize(path)
 
         self.sentences = constants.SENTENCES
         trie = Trie(Node(), 2)
