@@ -1,4 +1,5 @@
 import unittest
+from random import randint
 import constants
 from markov_process import Markov
 from trie import Trie, Node
@@ -49,3 +50,7 @@ class TestMarkovProcess(unittest.TestCase):
         result = self.markov.generate_sentence('ooppera', 2)
 
         self.assertFalse(result)
+
+    def test_process_not_deterministic(self):
+        # with a reasonable degree
+        degree = randint(1, 5)

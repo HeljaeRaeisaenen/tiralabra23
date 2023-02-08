@@ -11,7 +11,11 @@ def main():
     degree = input('Give degree: ')
     if not degree:
         degree = 2
-    degree = int(degree)
+    try:
+        degree = int(degree)
+    except:
+        print("'Degree' must be a number")
+        return
     start_str = input('The sentence should start with: ')
 
     if 'src' in str(Path('.').resolve()):

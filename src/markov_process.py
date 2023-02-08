@@ -68,7 +68,8 @@ class Markov:
         '''Make sure the starting word/-s is/are in the alphabet, and turn them into a list
         Args:
             start: string containing the starting word(s)
-        Returns: list containing the starting word(s)'''
+        Returns:
+            list containing the starting word(s)'''
 
         if len(start) == 0:
             start = self.random_word()
@@ -91,7 +92,8 @@ class Markov:
         '''Turn the generated list of words into a string structured like a sentence
         Args:
             sentence: list of strings
-        Returns: string'''
+        Returns:
+            a pretty string'''
         if len(sentence) == 1:
             return sentence[0].capitalize()
 

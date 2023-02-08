@@ -53,7 +53,9 @@ class Trie:
                 start_i += 1
 
     def insert(self, key):
-        '''Insert a list of words into the trie'''
+        '''Insert a list of words into the trie
+        Args:
+            key: the list to be inserted'''
         # print(key)
         node = self.root
         # print(key)
