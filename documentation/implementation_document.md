@@ -47,16 +47,13 @@ classDiagram
   ```
 
 ## Time complexity analysis
-A good trie works in linear time in the worst-case scenario. To test time complexity, I ran the program on two sizes of training material: Goethe's _Faust_ (345 707 bytes) and Victor Hugo's _Les Miserables_ (3 295 454 bytes). The larger is about 9.5 times the size of the smaller. If the trie of the program works in linear time, the difference is the execution speed should be roughly of the same scale.
+A good trie works in linear time in the worst-case scenario.
 
-I tested the program's execution time starting from the point where the file had already been read, and ending once the generated sentence had been printed. I ran seven trials with each training material.
+The program uses trie. The trie consists of nodes. The children of each node are in a lookup table of the node, so accessing them happens in constant time. The trie is created for the Markov process in index.py. There, it is given an empty node as its root. Next, the trie is populated with rules for the Markov process. The rules are lists of lenght degree+1, when degree is the degree of the Markov process. The trie's method `fill_with_words()` iterates through the corpus in a for-loop, which is a linear-time operation. The method has two nested for-loops, but the inner doesn't iterate the whole material, preserving the linear time complexity. This method uses another method of the trie, `insert()`. It searches the trie for each rule, which is relatively quick and doesn't affect the time complexity, as the rules are supposed to be degree+1 in length.
 
+Next the program searches the trie an unknown amount of times. The search-method of the trie traverses the trie, accessing each node's children via the lookup table. This happens in linear time, as the search key is iterated through once.
 
-|  | Faust | Les Miserables |
-| - | ----- | -------------- | 
-| time average |0.0905... | 1.72... | 
-
-The ratio of the averages (time of Miserables / time of Faust) is ~19. If the program ran in linear time, one would expect the execution time with the larger material to be 9.5 times 0.0905 = ~0.86. This is about half of the attained speed, the attained speed is not exponential in relation to the size difference. This seems to be proof that the trie does work in linear time with some constant factor???
+All in all, the time complexity of the implemented trie should be O(n).
 
 ## Quality issues
 
