@@ -1,6 +1,6 @@
 from time import time
 from pathlib import Path
-from constants import init
+from constants import initialize
 from trie import Node, Trie
 from markov_process import Markov
 
@@ -21,21 +21,22 @@ def main():
     if 'src' in str(Path('.').resolve()):
         path = '../data/'
     if not file:
-        file = 'alice.txt'
+        file = 'miserables.txt'
 
     filepath = Path(path+file).resolve()
-    init(filepath)
+    initialize(filepath)
     a = time()
     trie = Trie(Node(), degree)
     trie.fill_with_words()
     # print(trie)
+    b = time()
+
     mark = Markov(trie)
     sentence = mark.generate_sentence(start_str, degree)
     if not sentence:
         sentence = 'Try another word or phrase'
 
     print('\n'+sentence+'\n')
-    b = time()
     print(b-a, 's')
 
 

@@ -3,7 +3,7 @@ complicated.'''
 from read_file import read_file
 
 
-def init(path):
+def initialize(path):
     '''Get the sentences in the text file at path. Make a sentences list and an alphabet.'''
     global SENTENCES
     SENTENCES = read_file(path)

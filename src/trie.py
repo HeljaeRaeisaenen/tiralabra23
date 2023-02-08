@@ -35,11 +35,11 @@ class Trie:
     '''Contains the methods needed for manipulating a trie.
     Attributes:
         root: root node of the trie
-        k: degree of the Markov chain that uses this trie'''
+        degree: degree of the Markov chain that uses this trie'''
 
     def __init__(self, root, degree):
         self.root = root
-        self.k = degree
+        self.degree = degree
 
     def fill_with_words(self):
         '''Populate the trie with the source material. Adds rules of the Markov process to the
@@ -47,7 +47,7 @@ class Trie:
         at first.'''
         for sentence in constants.SENTENCES:
             start_i = 0
-            for i in range(self.k+1, len(sentence)+1):
+            for i in range(self.degree+1, len(sentence)+1):
                 part = sentence[start_i:i]
                 self.insert(part)
                 start_i += 1
@@ -56,7 +56,6 @@ class Trie:
         '''Insert a list of words into the trie
         Args:
             key: the list to be inserted'''
-        # print(key)
         node = self.root
         # print(key)
         for word in key:
@@ -86,10 +85,3 @@ class Trie:
     def __repr__(self) -> str:
         return str(self.root)
 
-
-if __name__ == '__main__':
-    constants.init('tests/testdata/catsanddogs.txt')
-    rootnode = Node()
-    trie = Trie(rootnode, 2)
-    trie.fill_with_words()
-    # print(trie)
