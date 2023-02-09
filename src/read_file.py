@@ -49,13 +49,15 @@ def split_into_sentences(text):
     text = text.replace(".", ".<stop>")
     text = text.replace("?", "?<stop>")
     text = text.replace("!", "!<stop>")
+    #text = text.replace("”", " ”")
+    #text = text.replace("“", " “")
+    #text = text.replace("\"", " \"")
     text = text.replace("<prd>", ".")
     sentences = text.split("<stop>")
     sentences = sentences[:-1]
     sentences = [s.strip() for s in sentences]
     return sentences
 # end
-# btw text with urls gets ugly
 
 
 def read_file(path):

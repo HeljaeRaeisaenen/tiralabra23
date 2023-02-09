@@ -3,6 +3,8 @@ from itertools import accumulate
 from trie import Trie, Node
 import constants
 
+QUOTE_MARKS = '"“”'
+
 
 class Markov:
     '''Class that does Markov process.
@@ -27,26 +29,27 @@ class Markov:
         generated_sentence = word
         rule = word[-degree:]
 
+        open_quote = False
+        # if generated_sentence[0][0] in quote_marks:
+        #    open_quote = True
 
         while True:
-            print(rule)
+            #print(rule)
+            #print('open quote', open_quote)
             next_words = self.trie.search(rule)
             if not next_words:
                 break
-    
-            for node in next_words:
-                print('     next node:', node.value)
+
+            #for node in next_words:
+                #print('     next node:', node.value)
             weights = self.calculate_weights(next_words)
             chosen_one = choices(next_words, cum_weights=weights, k=1)[0]
-            print('chosen: ', chosen_one.value, chosen_one.freq)
-            print(chosen_one.value[0])
+            #print('chosen: ', chosen_one.value, chosen_one.freq)
 
             generated_sentence.append(chosen_one.value)
             rule = generated_sentence[-degree:]
-        
 
-
-        return self.format_sentence(generated_sentence)
+        return self.format_sentence(generated_sentence, open_quote)
 
     def calculate_weights(self, nodes):
         '''Determine which of the words does appear more often and should thus be favoured.
@@ -94,7 +97,7 @@ class Markov:
 
         return validated
 
-    def format_sentence(self, sentence: list):
+    def format_sentence(self, sentence: list, add_end_quote):
         '''Turn the generated list of words into a string structured like a sentence
         Args:
             sentence: list of strings
@@ -106,11 +109,14 @@ class Markov:
 
         output = ''
         for word in sentence[:-2]:
+            #if word in QUOTE_MARKS:
+            #    output = output[:-1]
             output += word + ' '
 
         output += sentence[-2] + sentence[-1]
 
-        #output = output.capitalize()
+        if add_end_quote:
+            output += '”'
 
         return output
 
@@ -118,11 +124,13 @@ class Markov:
         '''Get a random word of the alphabet that can start a three-word sequence.
         Returns: string'''
         possible_starts = self.trie.root.give_children()
-        chosen = choices(possible_starts, k=1)
-        if chosen[0].value[-1] == '"' or chosen[0].value[-2] == '"':
-            print('NOOOOOOOOOOOOOOOOOOOO')
-            return self.random_word()
-        return chosen[0].value
+        chosen = choices(possible_starts, k=1)[0]
+        if len(chosen.value) != 1:
+            if chosen.value[-1] in QUOTE_MARKS or chosen.value[-2] in QUOTE_MARKS:
+                print('NO')
+                return self.random_word()
+
+        return chosen.value
 
 
 if __name__ == '__main__':

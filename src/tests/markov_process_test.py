@@ -61,11 +61,10 @@ class TestMarkovProcess(unittest.TestCase):
         trie.fill_with_words()
         self.markov = Markov(trie)
 
-
-        #The chance to generate the same sentence twice should be very low
+        # The chance to generate the same sentence twice should be very low
         result = self.markov.generate_sentence('I was', degree)
         result2 = self.markov.generate_sentence('I was', degree)
         print(degree)
-        print(result,'\n', result2)
-        
+        print(result, '\n', result2)
+
         self.assertNotEqual(result, result2)
