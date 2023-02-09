@@ -5,7 +5,7 @@ import constants
 
 
 class Markov:
-    '''Class that does Markov process
+    '''Class that does Markov process.
     Attributes:
         trie: a populated trie structure that contains the rules of the process'''
 
@@ -13,7 +13,7 @@ class Markov:
         self.trie = trie
 
     def generate_sentence(self, start: str, degree: int):
-        '''Creates sentence using a Markov process
+        '''Creates sentence using a Markov process.
         Args:
             start: a word or words that are to start the sentence
             degree: which degree of process to use
@@ -27,23 +27,29 @@ class Markov:
         generated_sentence = word
         rule = word[-degree:]
 
+
         while True:
-            # print(rule)
+            print(rule)
             next_words = self.trie.search(rule)
             if not next_words:
                 break
-            # for node in next_words:
-                # print('     next node:', node.value)
+    
+            for node in next_words:
+                print('     next node:', node.value)
             weights = self.calculate_weights(next_words)
             chosen_one = choices(next_words, cum_weights=weights, k=1)[0]
-            # print('chosen: ', chosen_one.value, chosen_one.freq)
+            print('chosen: ', chosen_one.value, chosen_one.freq)
+            print(chosen_one.value[0])
+
             generated_sentence.append(chosen_one.value)
             rule = generated_sentence[-degree:]
+        
+
 
         return self.format_sentence(generated_sentence)
 
     def calculate_weights(self, nodes):
-        '''Determine which of the words does appear more often and should thus be favoured
+        '''Determine which of the words does appear more often and should thus be favoured.
         Args:
             nodes: list of trie nodes, representing next possible words in the Markov chain
         Returns:
@@ -94,8 +100,9 @@ class Markov:
             sentence: list of strings
         Returns:
             a pretty string'''
+        sentence[0] = sentence[0].capitalize()
         if len(sentence) == 1:
-            return sentence[0].capitalize()
+            return sentence[0]
 
         output = ''
         for word in sentence[:-2]:
@@ -103,7 +110,7 @@ class Markov:
 
         output += sentence[-2] + sentence[-1]
 
-        output = output.capitalize()
+        #output = output.capitalize()
 
         return output
 
@@ -112,6 +119,9 @@ class Markov:
         Returns: string'''
         possible_starts = self.trie.root.give_children()
         chosen = choices(possible_starts, k=1)
+        if chosen[0].value[-1] == '"' or chosen[0].value[-2] == '"':
+            print('NOOOOOOOOOOOOOOOOOOOO')
+            return self.random_word()
         return chosen[0].value
 
 

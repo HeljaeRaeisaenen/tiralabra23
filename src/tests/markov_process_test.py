@@ -53,4 +53,19 @@ class TestMarkovProcess(unittest.TestCase):
 
     def test_process_not_deterministic(self):
         # with a reasonable degree
+        path = 'tests/testdata/alice_in_wonderland.txt'
+        constants.initialize(path)
+
         degree = randint(1, 5)
+        trie = Trie(Node(), degree)
+        trie.fill_with_words()
+        self.markov = Markov(trie)
+
+
+        #The chance to generate the same sentence twice should be very low
+        result = self.markov.generate_sentence('I was', degree)
+        result2 = self.markov.generate_sentence('I was', degree)
+        print(degree)
+        print(result,'\n', result2)
+        
+        self.assertNotEqual(result, result2)

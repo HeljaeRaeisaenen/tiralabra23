@@ -21,7 +21,7 @@ def main():
     if 'src' in str(Path('.').resolve()):
         path = '../data/'
     if not file:
-        file = 'miserables.txt'
+        file = 'alice.txt'
 
     filepath = Path(path+file).resolve()
     initialize(filepath)
