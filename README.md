@@ -10,9 +10,16 @@ A Tiralabra 2023 project (_Mark of processer_)
 
 [week 3](documentation/weekly_reports/week_report3.md)
 
+[week 4](documentation/weekly_reports/week_report4.md)
 
-## Requirements specification
-[link](documentation/requirements_specification.md)
+
+## Documentation
+[requiremens specification](documentation/requirements_specification.md)
+
+[testing documentation](documentation/testing_document.md)
+
+[executionn documentation](documentation/execution_document.md)
+
 
 ## Commands
 #### First:
@@ -23,9 +30,10 @@ A Tiralabra 2023 project (_Mark of processer_)
 #### To run pylint: `poetry run invoke lint`
 
 #### To run tests: `poetry run invoke test` 
+Note: sometimes one test fails randomly. If you see a test fail, try running them again before concluding that the code is broken.
 
 #### To to run the program:
 1. Create a folder named `data` in the repository folder. It should be on the same level as `src`
-2. Add a .txt file in the data folder. It should contain text.
+2. Add a .txt file in the data folder. It should contain text. You can find free e-books in plain text from https://www.gutenberg.org and http://www.lonnrot.net (Finnish), for example.
 3. Run `python3 src/index.py` in the repository's root folder (not in data!)
 4. Give the name of the .txt file (not path!). For example, `example.txt`
