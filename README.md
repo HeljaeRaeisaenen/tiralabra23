@@ -30,7 +30,6 @@ A Tiralabra 2023 project (_Mark of processer_)
 #### To run pylint: `poetry run invoke lint`
 
 #### To run tests: `poetry run invoke test` 
-Note: sometimes one test fails randomly. If you see a test fail, try running them again before concluding that the code is broken.
 
 #### To to run the program:
 1. Create a folder named `data` in the repository folder. It should be on the same level as `src`
