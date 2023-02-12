@@ -1,4 +1,4 @@
-# Implementation documentation
+# Execution documentation
 ## Architecture
 The program's logical structure is illustrated below.
 
