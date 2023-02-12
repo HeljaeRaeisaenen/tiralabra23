@@ -77,7 +77,7 @@ class Trie:
         node = self.root
         for word in key:
             if word not in node.children:
-                #print('nope')
+                # print('nope')
                 return False
             node = node.children[word]
         return node.give_children()

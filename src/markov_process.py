@@ -34,17 +34,17 @@ class Markov:
         #    open_quote = True
 
         while True:
-            #print(rule)
-            #print('open quote', open_quote)
+            # print(rule)
+            # print('open quote', open_quote)
             next_words = self.trie.search(rule)
             if not next_words:
                 break
 
-            #for node in next_words:
-                #print('     next node:', node.value)
+            # for node in next_words:
+                # print('     next node:', node.value)
             weights = self.calculate_weights(next_words)
             chosen_one = choices(next_words, cum_weights=weights, k=1)[0]
-            #print('chosen: ', chosen_one.value, chosen_one.freq)
+            # print('chosen: ', chosen_one.value, chosen_one.freq)
 
             generated_sentence.append(chosen_one.value)
             rule = generated_sentence[-degree:]
@@ -109,7 +109,7 @@ class Markov:
 
         output = ''
         for word in sentence[:-2]:
-            #if word in QUOTE_MARKS:
+            # if word in QUOTE_MARKS:
             #    output = output[:-1]
             output += word + ' '
 
