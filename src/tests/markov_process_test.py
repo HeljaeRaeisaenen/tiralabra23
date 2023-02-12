@@ -62,10 +62,12 @@ class TestMarkovProcess(unittest.TestCase):
         self.markov = Markov(trie)
 
         # The chance to generate the same sentence twice should be very low
-        # but once in a while this test fails randomly. Run it again and it't ok
-        result = self.markov.generate_sentence('Silloin', degree)
-        result2 = self.markov.generate_sentence('Silloin', degree)
-        print(degree)
-        print(result, '\n', result2)
+        # but once in a while this test fails randomly. Therefore it's given 3 chances
+        comparison_result = []
+        for i in range(1,3):
+            result = self.markov.generate_sentence('Silloin', degree)
+            result2 = self.markov.generate_sentence('Silloin', degree)
+            comparison_result.append(result == result2)
 
-        self.assertNotEqual(result, result2)
+
+        self.assertIn(False, comparison_result)
