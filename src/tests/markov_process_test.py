@@ -53,7 +53,7 @@ class TestMarkovProcess(unittest.TestCase):
 
     def test_process_not_deterministic(self):
         # with a reasonable degree
-        path = 'tests/testdata/alice_in_wonderland.txt'
+        path = 'tests/testdata/santeri_ivalo_kreivin_aikaan.txt'
         constants.initialize(path)
 
         degree = randint(1, 5)
@@ -63,8 +63,8 @@ class TestMarkovProcess(unittest.TestCase):
 
         # The chance to generate the same sentence twice should be very low
         # but once in a while this test fails randomly. Run it again and it't ok
-        result = self.markov.generate_sentence('I was', degree)
-        result2 = self.markov.generate_sentence('I was', degree)
+        result = self.markov.generate_sentence('Silloin', degree)
+        result2 = self.markov.generate_sentence('Silloin', degree)
         print(degree)
         print(result, '\n', result2)
 
