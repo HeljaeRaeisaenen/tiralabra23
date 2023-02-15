@@ -17,11 +17,7 @@ class Node:
 
     def give_children(self):
         '''Return the children of the node as a list'''
-        children = []
-        for child in self.children.values():
-            children.append(child)
-
-        return children
+        return list(self.children.values())
 
     def __repr__(self):
         children = self.give_children()

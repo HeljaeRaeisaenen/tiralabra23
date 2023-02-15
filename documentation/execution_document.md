@@ -55,6 +55,27 @@ Next the program searches the trie an unknown amount of times. The search-method
 
 All in all, the time complexity of the implemented trie should be O(n).
 
+## Corpus
+I've built this program using txt-format e-books as its corpora. Books like this can easily be found on the websites of Project Gutenberg and Projekti Lönnrot. Any plain text file should be good to use with this program, but note that the program isn't prepared to parse URLs and that some types of texts with might behave funny.
+
 ## Quality issues
+
+### Quotation mark control
+In class Markov, there is a bunch of code that attempts to force the process to close opened quotes, and not close unopened quotes, to try and avoid text like:
+
+'I like puppies" he said.'
+
+If you look at the class' method generate_sentence(), you can see that there's a loop that iterates with range:
+
+```
+for i in range(len(next_words)):
+      chosen_one = choices(next_words, cum_weights=weights, k=1)[0]
+                
+          if chosen_one.value == '“':
+		...
+```
+The iteration exist to get allow the insertion of an unwanted quote mark in the sentence, if it is the only currently available candidate for the next 'word' (or token). The range gives the code as many tries as there are these candidates to take a weighted random choice. If the first choice is an unwanted quote mark, a new choice is made, until the code either finds a more suitable next word, or  "gives up".
+
+This is probably not the neatest way to do this, but I wanted to improve the appearance of the generated text. It's the shortest solution I figured out. I also hardocoded the program to only notice the specific, unusual quotation marks that Project Gutenberg and Projekti Lönnrot use, and text with normal quote marks isn't affected at all.
 
 ## References

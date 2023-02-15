@@ -10,7 +10,7 @@ def main():
     file = input('Give filename: ')
     degree = input('Give degree: ')
     if not degree:
-        degree = 2
+        degree = 4
     try:
         degree = int(degree)
     except:

@@ -15,7 +15,6 @@ def split_into_sentences(text):
     acronyms = "([A-Z][.][A-Z][.](?:[A-Z][.])?)"
     websites = "[.](com|net|org|io|gov)"
     digits = "([0-9])"
-
     text = " " + text + "  "
     text = text.replace("\n", " ")
     text = re.sub(prefixes, "\\1<prd>", text)
@@ -49,15 +48,14 @@ def split_into_sentences(text):
     text = text.replace(".", ".<stop>")
     text = text.replace("?", "?<stop>")
     text = text.replace("!", "!<stop>")
-    # text = text.replace("”", " ”")
-    # text = text.replace("“", " “")
-    # text = text.replace("\"", " \"")
     text = text.replace("<prd>", ".")
+    #text = text.replace(' ', '<wspc> <wspc>')
     sentences = text.split("<stop>")
     sentences = sentences[:-1]
     sentences = [s.strip() for s in sentences]
     return sentences
 # end
+
 
 
 def read_file(path):
@@ -73,13 +71,26 @@ def read_file(path):
 
         sentences = split_into_sentences(file)
         for i in range(0, len(sentences)):
-            sentences[i] = sentences[i].split()
-            # turn ending characters from sentences into 'words':
-            if sentences[i][-1][-1] in '.?!':
-                sentences[i][-1], end_char = sentences[i][-1][0:-
-                                                              1], sentences[i][-1][-1]
-                sentences[i].append(end_char)
+            sentences[i] = split_into_words(sentences[i])
 
-            # un-capitalize first word
-            sentences[i][0] = sentences[i][0].lower()
     return sentences
+
+
+def split_into_words(text):
+    '''Turns a string into a list of its components, i.e. tokenizes the string.
+    Args:
+        text, a string
+    Returns:
+        text, the same text split into words, punctuation marks and spaces as a list'''
+    punctuation = ',.;:?!"“”'
+
+    #turn punctuation chars into their own 'words'
+    for x in punctuation:
+        text = text.replace(x, '<wspc>'+x+'<wspc>')
+    text = text.replace(' ', '<wspc> <wspc>')
+    text = [word for word in text.split('<wspc>') if word]
+
+    # un-capitalize first word
+    text[0] = text[0].lower()
+    
+    return text

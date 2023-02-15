@@ -2,17 +2,19 @@ from random import choices
 from itertools import accumulate
 from trie import Trie, Node
 import constants
-
-QUOTE_MARKS = '"“”'
-
+from read_file import split_into_words
+#quote_test = []
 
 class Markov:
     '''Class that does Markov process.
     Attributes:
-        trie: a populated trie structure that contains the rules of the process'''
+        trie: a populated trie structure that contains the rules of the process
+        open_quote: boolean, this indicates whether the sentence being generated has
+        an unclosed quotation mark or not.'''
 
     def __init__(self, trie: Trie) -> None:
         self.trie = trie
+        self._open_quote = False
 
     def generate_sentence(self, start: str, degree: int):
         '''Creates sentence using a Markov process.
@@ -25,23 +27,45 @@ class Markov:
         word = self.validate_starting_word(start)
         if not word:
             return False
+        
 
         generated_sentence = word
         rule = word[-degree:]
-
+        #quote_test.append(self._open_quote)
+        
         while True:
             next_words = self.trie.search(rule)
             if not next_words:
                 break
 
-            # for node in next_words:
-                # print('     next node:', node.value)
+            #for node in next_words:
+            #    print('     next node:', node.value)
             weights = self.calculate_weights(next_words)
-            chosen_one = choices(next_words, cum_weights=weights, k=1)[0]
-            # print('chosen: ', chosen_one.value, chosen_one.freq)
+
+            for i in range(len(next_words)):
+                #the range gives the code a chance to choose another word
+                #if the word chosen is an unwanted quote mark
+                chosen_one = choices(next_words, cum_weights=weights, k=1)[0]
+                #print('chosen: ', chosen_one.value, chosen_one.freq)
+                if chosen_one.value == '“':
+                    if not self._open_quote:
+                        self.flip_quote_flag()
+                        break
+                    else: continue
+                elif chosen_one.value == '”':
+                    if self._open_quote:
+                        self.flip_quote_flag()
+                        break
+                    else: continue
+                else: break
 
             generated_sentence.append(chosen_one.value)
+            #quote_test.append(self._open_quote)
             rule = generated_sentence[-degree:]
+        
+        #print(quote_test)
+        if len(generated_sentence) == len(word):
+            print('Oopsie woopsie')
 
         return self.format_sentence(generated_sentence)
 
@@ -77,7 +101,7 @@ class Markov:
         if len(start) == 0:
             start = self.random_word()
 
-        start = start.split(' ')
+        start = split_into_words(start)
 
         validated = []
         for word in start:
@@ -87,6 +111,8 @@ class Markov:
                 else:
                     return False
             else:
+                if word == '“' or '"' in word:
+                    self.flip_quote_flag()
                 validated.append(word)
 
         return validated
@@ -98,28 +124,22 @@ class Markov:
         Returns:
             a pretty string'''
         sentence[0] = sentence[0].capitalize()
-        if len(sentence) == 1:
-            return sentence[0]
 
-        output = ''
-        for word in sentence[:-2]:
-            output += word + ' '
+        if self._open_quote:
+            sentence.append('”')
 
-        output += sentence[-2] + sentence[-1]
-
-        return output
+        return ''.join(sentence)
 
     def random_word(self):
         '''Get a random word of the alphabet that can start a three-word sequence.
         Returns: string'''
         possible_starts = self.trie.root.give_children()
         chosen = choices(possible_starts, k=1)[0]
-#        if len(chosen.value) != 1:
-#            if chosen.value[-1] in QUOTE_MARKS or chosen.value[-2] in QUOTE_MARKS:
-#                print('NO')
-#                return self.random_word()
 
         return chosen.value
+
+    def flip_quote_flag(self):
+        self._open_quote = not self._open_quote
 
 
 if __name__ == '__main__':
