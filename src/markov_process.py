@@ -29,13 +29,7 @@ class Markov:
         generated_sentence = word
         rule = word[-degree:]
 
-        open_quote = False
-        # if generated_sentence[0][0] in quote_marks:
-        #    open_quote = True
-
         while True:
-            # print(rule)
-            # print('open quote', open_quote)
             next_words = self.trie.search(rule)
             if not next_words:
                 break
@@ -49,7 +43,7 @@ class Markov:
             generated_sentence.append(chosen_one.value)
             rule = generated_sentence[-degree:]
 
-        return self.format_sentence(generated_sentence, open_quote)
+        return self.format_sentence(generated_sentence)
 
     def calculate_weights(self, nodes):
         '''Determine which of the words does appear more often and should thus be favoured.
@@ -97,7 +91,7 @@ class Markov:
 
         return validated
 
-    def format_sentence(self, sentence: list, add_end_quote):
+    def format_sentence(self, sentence: list):
         '''Turn the generated list of words into a string structured like a sentence
         Args:
             sentence: list of strings
@@ -109,14 +103,9 @@ class Markov:
 
         output = ''
         for word in sentence[:-2]:
-            # if word in QUOTE_MARKS:
-            #    output = output[:-1]
             output += word + ' '
 
         output += sentence[-2] + sentence[-1]
-
-        if add_end_quote:
-            output += '”'
 
         return output
 
@@ -125,10 +114,10 @@ class Markov:
         Returns: string'''
         possible_starts = self.trie.root.give_children()
         chosen = choices(possible_starts, k=1)[0]
-        if len(chosen.value) != 1:
-            if chosen.value[-1] in QUOTE_MARKS or chosen.value[-2] in QUOTE_MARKS:
-                print('NO')
-                return self.random_word()
+#        if len(chosen.value) != 1:
+#            if chosen.value[-1] in QUOTE_MARKS or chosen.value[-2] in QUOTE_MARKS:
+#                print('NO')
+#                return self.random_word()
 
         return chosen.value
 
