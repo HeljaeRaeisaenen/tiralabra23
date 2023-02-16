@@ -22,9 +22,17 @@ def main():
         path = '../data/'
     if not file:
         file = 'alice.txt'
+    if file[-4:] != '.txt':
+        file += '.txt'
 
     filepath = Path(path+file).resolve()
-    initialize(filepath)
+    
+    try:
+        initialize(filepath)
+    except FileNotFoundError:
+        print(f'\nCouldn\'t find a file called {file}, make sure that it is in the correct place.\n')
+        return
+
     a = time()
     trie = Trie(Node(), degree)
     trie.fill_with_words()

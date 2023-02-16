@@ -67,6 +67,7 @@ def read_file(path):
         path: path of txt document
     Returns:
         a list containing sublists, each sublist a sentence of strings.'''
+    
     with open(path, encoding='utf-8') as file:
         file = file.read()
 
