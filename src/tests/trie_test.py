@@ -29,10 +29,10 @@ class TestTrieAndNode(unittest.TestCase):
 
         node = self.trie.root
         for word in sentence:
-            node = node.children[word]            
+            node = node.children[word]
             self.assertEqual(word, node.value)
 
-    #def test_terminal_value_assigned_right(self):
+    # def test_terminal_value_assigned_right(self):
     #    self.trie.insert(self.sentences[1])
     #
     #    self.assertEqual(
@@ -42,6 +42,6 @@ class TestTrieAndNode(unittest.TestCase):
 
     def test_search_trie(self):
         self.trie.fill_with_words()
-        s = ['i', ' ', 'like', ' ']
+        s = ['I', 'like']
         result = self.trie.search(s)
         self.assertEqual(result[0].value, 'cats')

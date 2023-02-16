@@ -61,7 +61,7 @@ class Trie:
                 # print('added ',node.children[word])
             node = node.children[word]
             node.freq += 1
-        #node.terminal = True
+        # node.terminal = True
         # print('root ',self.root)
 
     def search(self, key: list):
