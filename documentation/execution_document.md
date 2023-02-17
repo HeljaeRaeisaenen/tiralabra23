@@ -49,6 +49,8 @@ classDiagram
 ## Time complexity analysis
 A good trie works in linear time in the worst-case scenario.
 
+Analysis:
+
 The program uses trie. The trie consists of nodes. The children of each node are in a lookup table of the node, so accessing them happens in constant time. The trie is created for the Markov process in index.py. There, it is given an empty node as its root. Next, the trie is populated with rules for the Markov process. The rules are lists of lenght degree+1, when degree is the degree of the Markov process. The trie's method `fill_with_words()` iterates through the corpus in a for-loop, which is a linear-time operation. The method has two nested for-loops, but the inner doesn't iterate the whole material, preserving the linear time complexity. This method uses another method of the trie, `insert()`. It searches the trie for each rule, which is relatively quick and doesn't affect the time complexity, as the rules are supposed to be degree+1 in length.
 
 Next the program searches the trie an unknown amount of times. The search-method of the trie traverses the trie, accessing each node's children via the lookup table. This happens in linear time, as the search key is iterated through once.
@@ -79,3 +81,7 @@ The iteration exist to get allow the insertion of an unwanted quote mark in the 
 This is probably not the neatest way to do this, but I wanted to improve the appearance of the generated text. It's the shortest solution I figured out. I also hardocoded the program to only notice the specific, unusual quotation marks that Project Gutenberg and Projekti Lönnrot use, and text with normal quote marks isn't affected at all.
 
 ## References
+https://en.wikipedia.org/wiki/Markov_chain
+https://en.wikipedia.org/wiki/Trie
+https://bespoyasov.me/blog/text-generation-with-markov-chains/
+https://replit.com/talk/learn/ANSI-Escape-Codes-in-Python/22803

@@ -3,40 +3,80 @@ from pathlib import Path
 from constants import initialize
 from trie import Node, Trie
 from markov_process import Markov
+from dotenv import dotenv_values
 
 class UI:
     def __init__(self) -> None:
         self._degree = None
         self._starting_word = None
+        try:
+            self._default_file = dotenv_values('.env')['DEFAULT_FILEPATH']
+        except KeyError:
+            self._default_file = None
 
-    def _start_process(self):
+        self._ansi_codes = {
+            'red': "\u001b[31m",
+            'bold': "\u001b[1m",
+            'reset': "\u001b[0m"}
+
+    def run(self):
+        print('\nWelcome to the Markov chain text generator!\n')
+        while True:
+            next = self._instructions()
+            if next == 'h':
+                self._help_page()
+            elif next == 'c':
+                self._configure()
+            elif next == 's':
+                self._start_generation_process()
+            else: return
+
+            #print(b-a, 's')
+
+    def _configure(self):
+        file = input('Path or name of the file: ')
+        with open(".env", 'w') as env:
+            env.write(f"DEFAULT_FILEPATH={file}")
+        self._default_file = file
+
+    def _start_generation_process(self):
         while True:
             success = self._open_file()
             if not success:
                 return
             self._get_degree()
             self._get_word()
-            result = self._get_sentence()
-            print('\n'+result+'\n')
+            amount = self._get_amount()
+            for i in range(amount):
+                result = self._get_sentence()
+                if not result: break
+                print('\n'+result+'\n')
 
     def _open_file(self):
         path = 'data/'
-        file = input('Give filename: ')
-
-        if 'src' in str(Path('.').resolve()):
-            path = '../data/'
+        file = input('Give filename/path (\'e\' to exit): ')
+        if file == 'e': return
         if not file:
-            file = 'alice.txt'
-        if file[-4:] != '.txt':
-            file += '.txt'
+            if not self._default_file:
+                self._print_warning('Default file hasn\'t been set, please set it or input a filename.')
+                return
+            file = Path(self._default_file).resolve()
+            print('     Generating from: ',file)
+        else:
+            if file[-4:] != '.txt':
+                file += '.txt'
 
-        filepath = Path(path+file).resolve()
+            if 'src' in str(Path('.').resolve()):
+                path = '../data/'
+                
+            if not 'home' in file:
+                file = Path(path+file).resolve()
         
         try:
-            initialize(filepath)
+            initialize(file)
             return True
         except FileNotFoundError:
-            print(f'\nCouldn\'t find a file called {file}, make sure that it is in the correct place.\n')
+            self._print_warning(f'\nCouldn\'t find a file called {file}, make sure that the file is in the correct place.\n')
             return False
     
     def _get_degree(self):
@@ -46,11 +86,23 @@ class UI:
         try:
             self._degree = int(degree)
         except:
-            print("'Degree' must be a number")
+            self._degree = 2
+            self._print_warning("'Degree' must be a number")
             return
     
     def _get_word(self):
         self._starting_word = input('The sentence should start with: ')
+    
+    def _get_amount(self):
+        number = input('Number of sentences to generate: ')
+        if not number: return 1
+
+        try:
+            number_validated = int(number)
+            return number_validated
+        except:
+            self._print_warning(f'{number} is not a number.')
+            return 1
 
     def _get_sentence(self):
         if not self._degree and not self._starting_word:
@@ -63,31 +115,47 @@ class UI:
         sentence = mark.generate_sentence(self._starting_word, self._degree)
         b = time()
         if not sentence:
-            sentence = 'Try another word or phrase'
+            print('\nTry another word or phrase\n')
+            return
         
+        sentence = self._ansi_wrap(sentence, 'bold')
         return sentence
 
     def _instructions(self):
-        print('Commands:\n    h for help,\n    s to start,\n    other to exit.')
+        print('Commands:\n    h for help,\n    s to start,\n    c to configure,\n    other to exit.')
         return input('Command: ')
     
-    def _help_page(self):
-        print('\nplaceholder\n')
+
+    def _ansi_wrap(self, text, code):
+        return self._ansi_codes[code] + text + self._ansi_codes['reset']
+
     
-    def run(self):
-        print('Welcome to the Markov chain text generator!\n')
-        while True:
-            next = self._instructions()
-            if next == 'h':
-                self._help_page()
-            elif next == 's':
-                self._start_process()
-            else: return
+    def _print_warning(self, text):
+        text = self._ansi_wrap(text, 'red')
+        print(text)
 
-            #print(b-a, 's')
-
+    def _help_page(self):
+        text = [
+            "",
+            "     - If you don't know what Markov chains are, read some of this:",
+            "     https://en.wikipedia.org/wiki/Markov_chain",
+            "     - When you press s and start the generation, you can give parameters.",
+            "     - They're all optional if a default file is set (read on).",
+            "     - The file must be given as an absolute path, UNLESS the file is in the 'data'",
+            "     folder (see user instructions: [link])."
+            "     - 'Degree' means how long 'chains' the program uses, a degree of 5 or less is", 
+            "     recommended.",
+            "     - A higher degree risks that the program will just parrot the original text.",
+            "     - You can also decide which word or phrase the generated sentences should start,",
+            "     or how many sentences you want.",
+            "     - You can set a default file in the c configurations. You should give the ABSOLUTE",
+            "     path of the file, including the filename and extension."
+            ""
+        ]
+        for line in text:
+            print(line)
+    
     @staticmethod
     def main():
         ui = UI()
         ui.run()
-
