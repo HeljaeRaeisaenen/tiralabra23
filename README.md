@@ -12,6 +12,8 @@ A Tiralabra 2023 project (_Mark of processer_)
 
 [week 4](documentation/weekly_reports/week_report4.md)
 
+[week 5](documentation/weekly_reports/week_report5.md)
+
 
 ## Documentation
 [requiremens specification](documentation/requirements_specification.md)
@@ -34,5 +36,5 @@ A Tiralabra 2023 project (_Mark of processer_)
 #### To to run the program:
 1. Create a folder named `data` in the repository folder. It should be on the same level as `src`
 2. Add a .txt file in the data folder. It should contain text. You can find free e-books in plain text from https://www.gutenberg.org and http://www.lonnrot.net (Finnish), for example.
-3. Run `python3 src/index.py` in the repository's root folder (not in data!)
-4. Give the name of the .txt file (not path!). For example, `example.txt`
+3. Run `poetry run invoke run` in the repository's root folder (not in data!)
+4. Give the name of the .txt file. For example, `example.txt` (You can also give absolute paths to files in locations other than the data folder)
