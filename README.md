@@ -23,7 +23,7 @@ A Tiralabra 2023 project (_Mark of processer_)
 [executionn documentation](documentation/execution_document.md)
 
 
-## Commands
+## Instructions
 #### First:
 1. Copy the repository on your own machine
 2. Go to the folder of the repository
