@@ -1,7 +1,7 @@
 # Week report
 Week 5
 
-Hours: 12
+Hours: 14
 
 ## What did I do?
 I changed the 'alphabet' of the program to treat punctuation marks as their own 'words'. This means that now a word is recognized as the same word whether or not it is followed by a comma. This allows me to control the opening and closing of quotes better. I think this improved the program somewhat.
