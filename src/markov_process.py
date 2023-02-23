@@ -46,7 +46,7 @@ class Markov:
             weights = self.calculate_weights(next_words)
 
             for i in range(len(next_words)):
-                # the range gives the code a chance to choose another word
+                # the range gives the code a chance to choose another word,
                 # if the word chosen is an unwanted quote mark
                 chosen_one = choices(next_words, cum_weights=weights, k=1)[0]
                 # print('chosen: ', chosen_one.value, chosen_one.freq)
@@ -141,7 +141,7 @@ class Markov:
         return output
 
     def random_word(self):
-        '''Get a random word of the alphabet that can start a three-word sequence.
+        '''Get a random word of the alphabet that can start a three-word 'rule'.
         Returns: string'''
         possible_starts = self.trie.root.give_children()
         chosen = choices(possible_starts, k=1)[0]
@@ -149,6 +149,7 @@ class Markov:
         return chosen.value
 
     def flip_quote_flag(self):
+        '''Called when a quote mark is added to the sentence being generated.'''
         self._open_quote = not self._open_quote
 
 

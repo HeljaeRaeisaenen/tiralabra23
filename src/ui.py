@@ -1,12 +1,11 @@
-from pathlib import Path
-from constants import initialize
+from dotenv import dotenv_values
+from constants import initialize, EmptyFileException
 from trie import Node, Trie
 from markov_process import Markov
-from dotenv import dotenv_values
 
 
 class UI:
-    def __init__(self) -> None:
+    def __init__(self):
         self._degree = None
         self._starting_word = None
         try:
@@ -32,10 +31,9 @@ class UI:
             else:
                 return
 
-            # print(b-a, 's')
 
     def _configure(self):
-        file = input('Path or name of the file: ')
+        file = input('Path or name of a file or folder: ')
         with open(".env", 'w', encoding='utf-8') as env:
             env.write(f"DEFAULT_FILEPATH={file}")
         self._default_file = file
@@ -55,33 +53,22 @@ class UI:
                 print('\n'+result+'\n')
 
     def _open_file(self):
-        path = 'data/'
         file = input('Give filename/path (\'e\' to exit): ')
+
         if file == 'e':
             return False
         if not file:
             if not self._default_file:
                 self._print_warning(
-                    'Default file hasn\'t been set, please set it or input a filename.')
+                    'Default file hasn\'t been set, please set it or input a filename/path.')
                 return False
-            file = Path(self._default_file).resolve()
-            print('     Generating from: ', file)
-        else:
-            if file[-4:] != '.txt':
-                file += '.txt'
-
-            if 'src' in str(Path('.').resolve()):
-                path = '../data/'
-
-            if not 'home' in file:
-                file = Path(path+file).resolve()
-
+            file = self._default_file
+            
         try:
             initialize(file)
             return True
-        except FileNotFoundError:
-            self._print_warning(
-                f'\nCouldn\'t find a file called {file}, make sure that the file exists.\n')
+        except (FileNotFoundError, EmptyFileException) as exception:
+            self._handle_exception(exception, file)
             return False
 
     def _get_degree(self):
@@ -112,7 +99,7 @@ class UI:
 
     def _get_sentence(self):
         if not self._degree and not self._starting_word:
-            return
+            return False
         trie = Trie(Node(), self._degree)
         trie.fill_with_words()
 
@@ -137,6 +124,14 @@ class UI:
         text = self._ansi_wrap(text, 'red')
         print(text)
 
+    def _handle_exception(self, e, file):
+        if type(e) == FileNotFoundError:
+            self._print_warning(
+                f'\nCouldn\'t find a file called {file}, make sure that the file exists.\n')
+        if type(e) == EmptyFileException:
+            self._print_warning(
+                f'\nThe file called {file} appears to not contain any acceptable text!\n')
+
     def _help_page(self):
         text = [
             "",
@@ -145,14 +140,15 @@ class UI:
             "     - When you press s and start the generation, you can give parameters.",
             "     - They're all optional if a default file is set (read on).",
             "     - The file must be given as an absolute path, UNLESS the file is in the 'data'",
-            "     folder (see user instructions: [link])."
+            "     folder (see user instructions: [link]).",
+            "     - The file must contain text that consists of sentences, e.g. prose or news.",
             "     - 'Degree' means how long 'chains' the program uses, a degree of 5 or less is",
             "     recommended.",
             "     - A higher degree risks that the program will just parrot the original text.",
             "     - You can also decide which word or phrase the generated sentences should start",
             "     or how many sentences you want.",
             "     - You can set a default file in the c configurations. You should give the",
-            "     ABSOLUTE path of the file, including the filename and extension."
+            "     ABSOLUTE path of the file, including the filename and extension.",
             ""
         ]
         for line in text:
@@ -162,3 +158,7 @@ class UI:
     def main():
         ui_thing = UI()
         ui_thing.run()
+
+
+def notify_user_of_filepath(path):
+    print('     Generating from: ', path)

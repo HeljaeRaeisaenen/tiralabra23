@@ -1,4 +1,5 @@
 import re
+from pathlib import Path
 
 # 'borrowed' and modified code from: https://stackoverflow.com/a/31505798
 # written by 'D. Greenberg', 'a.t. and 'Sisay Chala'
@@ -7,6 +8,14 @@ import re
 
 
 def split_into_sentences(text):
+    '''Detects sentences in a body of text, taking into account periods that appear inside
+    sentences.
+    Args:
+        text: a body of text, like the acquired text from reading a .txt file.
+    Returns:
+        sentences: a list containing sublist, each sublist containing the individual words and
+        punctuation chars as strings.'''
+    
     alphabets = "([A-Za-z])"
     prefixes = "(Mr|St|Mrs|Ms|Dr)[.]"
     suffixes = "(Inc|Ltd|Jr|Sr|Co)"
@@ -55,8 +64,8 @@ def split_into_sentences(text):
     sentences = text.split("<stop>")
     sentences = sentences[:-1]
 
-    for i in range(0, len(sentences)):
-        sentences[i] = [word for word in sentences[i].split('<wspc>') if word]
+    for i, sentence in enumerate(sentences):
+        sentences[i] = [word for word in sentence.split('<wspc>') if word]
     return sentences
 # end
 
@@ -64,26 +73,44 @@ def split_into_sentences(text):
 def read_file(path):
     '''Turns a text document into a list of its sentences.
     Args:
-        path: path of txt document
+        path: path of a .txt document
     Returns:
         a list containing sublists, each sublist a sentence of strings.'''
 
-    with open(path, encoding='utf-8') as file:
-        file = file.read()
+    folder_path = 'data/'
 
-        file = file.replace('_', '')
+    if 'src' in str(Path('.').resolve()):
+        folder_path = '../data/'
 
-        sentences = split_into_sentences(file)
+    if '/' not in path:
+        path = folder_path+path
+    elif not 'home' in path:
+        path = Path(path).resolve()
 
-    return sentences
+    print('   ~ Generating from: ', path, '~')
+    try:
+        with open(path, encoding='utf-8') as file:
+            file = file.read()
 
+            file = file.replace('_', '')
+
+            sentences = split_into_sentences(file)
+        return sentences
+    except IsADirectoryError:
+        return read_folder(path)
+
+def read_folder(path):
+    print('that was a directory')
+    return []
 
 def split_into_words(text):
     '''Turns a string into a list of its components, i.e. tokenizes the string.
+    This function turns text that doesn't contain sentences into the same format as
+    'split_into_sentences'
     Args:
-        text, a string
+        text, a string containing words, whitespaces and punctuation marks, but no newlines
     Returns:
-        text, the same text split into words, punctuation marks and spaces as a list'''
+        text, the same text split into words and punctuation marks as a list'''
     punctuation = ',.;:?!"“”'
 
     # turn punctuation chars into their own 'words'
