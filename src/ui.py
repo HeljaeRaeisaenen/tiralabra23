@@ -1,3 +1,4 @@
+from pathlib import Path
 from dotenv import dotenv_values
 from constants import initialize, EmptyFileException
 from trie import Node, Trie
@@ -11,7 +12,7 @@ class UI:
         try:
             self._default_file = dotenv_values('.env')['DEFAULT_FILEPATH']
         except KeyError:
-            self._default_file = None
+            self._default_file = ''
 
         self._ansi_codes = {
             'red': "\u001b[31m",
@@ -57,13 +58,17 @@ class UI:
 
         if file == 'e':
             return False
+
+        if file and (not Path(file).exists()):
+            file = self._default_file + '/' + file
+
         if not file:
             if not self._default_file:
                 self._print_warning(
                     'Default file hasn\'t been set, please set it or input a filename/path.')
                 return False
             file = self._default_file
-            
+
         try:
             initialize(file)
             return True
@@ -83,7 +88,11 @@ class UI:
             return
 
     def _get_word(self):
-        self._starting_word = input('The sentence should start with: ')
+        try:
+            self._starting_word = input('The sentence should start with: ')
+        except UnicodeDecodeError:
+            self._print_warning('Processing the input caused a problem :C try again')
+            self._get_word()
 
     def _get_amount(self):
         number = input('Number of sentences to generate: ')
@@ -130,7 +139,7 @@ class UI:
                 f'\nCouldn\'t find a file called {file}, make sure that the file exists.\n')
         if type(e) == EmptyFileException:
             self._print_warning(
-                f'\nThe file called {file} appears to not contain any acceptable text!\n')
+                f'\nThe file/folder called {file} appears to not contain any acceptable text!\n')
 
     def _help_page(self):
         text = [
@@ -138,17 +147,18 @@ class UI:
             "     - If you don't know what Markov chains are, read some of this:",
             "     https://en.wikipedia.org/wiki/Markov_chain",
             "     - When you press s and start the generation, you can give parameters.",
-            "     - They're all optional if a default file is set (read on).",
-            "     - The file must be given as an absolute path, UNLESS the file is in the 'data'",
+            "     - They're all optional if a default file/folder is set (read on).",
+            "     - The path must be given as an absolute path, UNLESS the file is in the current",
+            "     folder or the folder set as default."
             "     folder (see user instructions: [link]).",
-            "     - The file must contain text that consists of sentences, e.g. prose or news.",
+            "     - The files must contain text that consists of sentences, e.g. prose or news.",
             "     - 'Degree' means how long 'chains' the program uses, a degree of 5 or less is",
             "     recommended.",
             "     - A higher degree risks that the program will just parrot the original text.",
             "     - You can also decide which word or phrase the generated sentences should start",
             "     or how many sentences you want.",
-            "     - You can set a default file in the c configurations. You should give the",
-            "     ABSOLUTE path of the file, including the filename and extension.",
+            "     - You can set a default file or folder in the c configurations. You should give",
+            "     the ABSOLUTE path of the file/folder, including the file extension.",
             ""
         ]
         for line in text:

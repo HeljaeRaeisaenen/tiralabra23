@@ -77,21 +77,24 @@ def read_file(path):
     Returns:
         a list containing sublists, each sublist a sentence of strings.'''
 
-    folder_path = 'data/'
+    #if 'src' in str(Path('.').resolve()):
+    #    folder_path = '../data/'
 
-    if 'src' in str(Path('.').resolve()):
-        folder_path = '../data/'
+    #if '/' not in path:
+    #    path = folder_path+path
 
-    if '/' not in path:
-        path = folder_path+path
-    elif not 'home' in path:
-        path = Path(path).resolve()
+    
+    path = Path(path).resolve()
+    print('    Generating from: ', path)
 
-    print('   ~ Generating from: ', path, '~')
+    if path.is_dir():
+        return read_folder(path)
+    if path.suffix != '.txt':
+        return []
+
     try:
         with open(path, encoding='utf-8') as file:
             file = file.read()
-
             file = file.replace('_', '')
 
             sentences = split_into_sentences(file)
@@ -100,8 +103,21 @@ def read_file(path):
         return read_folder(path)
 
 def read_folder(path):
-    print('that was a directory')
-    return []
+    #print('that was a directory')
+
+    path = Path(path).resolve()
+
+    files = Path(path).glob('*.txt')
+    sentences = []
+
+    for file in files:
+        with open(file, encoding='utf-8') as opened_file:
+            opened_file = opened_file.read()
+            opened_file = opened_file.replace('_', '')
+
+            sentences = sentences + split_into_sentences(opened_file)
+
+    return sentences
 
 def split_into_words(text):
     '''Turns a string into a list of its components, i.e. tokenizes the string.
