@@ -15,7 +15,7 @@ def split_into_sentences(text):
     Returns:
         sentences: a list containing sublist, each sublist containing the individual words and
         punctuation chars as strings.'''
-    
+
     alphabets = "([A-Za-z])"
     prefixes = "(Mr|St|Mrs|Ms|Dr)[.]"
     suffixes = "(Inc|Ltd|Jr|Sr|Co)"
@@ -77,13 +77,12 @@ def read_file(path):
     Returns:
         a list containing sublists, each sublist a sentence of strings.'''
 
-    #if 'src' in str(Path('.').resolve()):
+    # if 'src' in str(Path('.').resolve()):
     #    folder_path = '../data/'
 
-    #if '/' not in path:
+    # if '/' not in path:
     #    path = folder_path+path
 
-    
     path = Path(path).resolve()
     print('    Generating from: ', path)
 
@@ -102,8 +101,9 @@ def read_file(path):
     except IsADirectoryError:
         return read_folder(path)
 
+
 def read_folder(path):
-    #print('that was a directory')
+    # print('that was a directory')
 
     path = Path(path).resolve()
 
@@ -118,6 +118,7 @@ def read_folder(path):
             sentences = sentences + split_into_sentences(opened_file)
 
     return sentences
+
 
 def split_into_words(text):
     '''Turns a string into a list of its components, i.e. tokenizes the string.

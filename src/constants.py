@@ -2,6 +2,7 @@
 complicated.'''
 from read_file import read_file
 
+
 def initialize(path):
     '''Get the sentences in the text file at path. Make a sentences list and an alphabet.'''
     global SENTENCES
@@ -9,13 +10,14 @@ def initialize(path):
 
     global ALPHABET
     ALPHABET = set()
-    
+
     SENTENCES = SENTENCES + read_file(path)
 
     ALPHABET.update(*SENTENCES)
 
     if len(SENTENCES) == 0:
         raise EmptyFileException
+
 
 class EmptyFileException(Exception):
     '''Raise when the file given by user is empty or the text inside is unusable,

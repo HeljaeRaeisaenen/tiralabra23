@@ -32,7 +32,6 @@ class UI:
             else:
                 return
 
-
     def _configure(self):
         file = input('Path or name of a file or folder: ')
         with open(".env", 'w', encoding='utf-8') as env:
@@ -91,7 +90,8 @@ class UI:
         try:
             self._starting_word = input('The sentence should start with: ')
         except UnicodeDecodeError:
-            self._print_warning('Processing the input caused a problem :C try again')
+            self._print_warning(
+                'Processing the input caused a problem :C try again')
             self._get_word()
 
     def _get_amount(self):
@@ -133,11 +133,11 @@ class UI:
         text = self._ansi_wrap(text, 'red')
         print(text)
 
-    def _handle_exception(self, e, file):
-        if type(e) == FileNotFoundError:
+    def _handle_exception(self, exception, file):
+        if isinstance(exception, FileNotFoundError):
             self._print_warning(
                 f'\nCouldn\'t find a file called {file}, make sure that the file exists.\n')
-        if type(e) == EmptyFileException:
+        if isinstance(exception, EmptyFileException):
             self._print_warning(
                 f'\nThe file/folder called {file} appears to not contain any acceptable text!\n')
 
