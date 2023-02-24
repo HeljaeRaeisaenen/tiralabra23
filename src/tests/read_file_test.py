@@ -27,3 +27,10 @@ class TestRead_file(unittest.TestCase):
         self.assertIn(',', constants.ALPHABET)
         self.assertIn('.', constants.ALPHABET)
         self.assertIn(':', constants.ALPHABET)
+
+    def test_reading_folders_possible(self):
+        path = 'tests/testdata'
+
+        sentences = read_file(path)
+
+        self.assertGreater(len(sentences), 0)

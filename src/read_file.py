@@ -77,12 +77,6 @@ def read_file(path):
     Returns:
         a list containing sublists, each sublist a sentence of strings.'''
 
-    # if 'src' in str(Path('.').resolve()):
-    #    folder_path = '../data/'
-
-    # if '/' not in path:
-    #    path = folder_path+path
-
     path = Path(path).resolve()
     print('    Generating from: ', path)
 
@@ -103,8 +97,7 @@ def read_file(path):
 
 
 def read_folder(path):
-    # print('that was a directory')
-
+    '''Reads all .txt files in the given directory.'''
     path = Path(path).resolve()
 
     files = Path(path).glob('*.txt')

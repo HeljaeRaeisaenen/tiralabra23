@@ -111,3 +111,15 @@ class TestMarkovProcess(unittest.TestCase):
                 found = self.markov.trie.search(alternative[i:end])
             self.assertTrue(found)
             end += 1
+
+    def test_quote_control_works(self):
+        path = 'tests/testdata/periods.txt'
+        constants.initialize(path)
+
+        trie = Trie(Node(), 2)
+        trie.fill_with_words()
+        self.markov = Markov(trie)
+        result = self.markov.generate_sentence('also', 2)
+        print(result)
+        self.assertIn('“', result)
+        self.assertIn('”', result)

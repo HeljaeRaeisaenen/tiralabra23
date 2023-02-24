@@ -128,10 +128,18 @@ class Markov:
             a pretty string'''
         sentence[0] = sentence[0].capitalize()
 
+        first_quote = False
         output = sentence[0]
+
         for word in sentence[1:]:
-            if word in ',.;:?!"“”':
+            if word in ',.;:?!"”':
                 output += word
+            elif first_quote:
+                output += word
+                first_quote = False
+            elif word == '“':
+                first_quote = True
+                output += ' ' + word
             else:
                 output += ' ' + word
 
