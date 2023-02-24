@@ -14,6 +14,8 @@ A Tiralabra 2023 project (_Mark of processer_)
 
 [week 5](documentation/weekly_reports/week_report5.md)
 
+[week 6](documentation/weekly_reports/week_report6.md)
+
 
 ## Documentation
 [requiremens specification](documentation/requirements_specification.md)
@@ -22,19 +24,5 @@ A Tiralabra 2023 project (_Mark of processer_)
 
 [executionn documentation](documentation/execution_document.md)
 
-
 ## Instructions
-#### First:
-1. Copy the repository on your own machine
-2. Go to the folder of the repository
-3. Run `poetry install`
-
-#### To run pylint: `poetry run invoke lint`
-
-#### To run tests: `poetry run invoke test` 
-
-#### To to run the program:
-1. Create a folder named `data` in the repository folder. It should be on the same level as `src`
-2. Add a .txt file in the data folder. It should contain text. You can find free e-books in plain text from https://www.gutenberg.org and http://www.lonnrot.net (Finnish), for example.
-3. Run `poetry run invoke run` in the repository's root folder (not in data!)
-4. Give the name of the .txt file. For example, `example.txt` (You can also give absolute paths to files in locations other than the data folder)
+[User instructions](/documentation/user_instructions.md)
