@@ -1,12 +1,24 @@
 # User instructions
 
 ## Get the program working
+#### First:
 
+1. Copy the repository on your own machine
+2. Go to the folder of the repository
+3. Run `poetry install`
+
+#### To to run the program:
+1. You should have a .txt file that contains some text. You can find free e-books in plain text from https://www.gutenberg.org and http://www.lonnrot.net (Finnish), for example.
+2. Run `poetry run invoke run` in the repository's root folder
+3. Give the text file to the program. See the section 'On files' below.
+
+#### To run pylint: `poetry run invoke lint`
+#### To run tests: `poetry run invoke test`
 
 ## On files
-The program reads files and uses them to train itself to generate text. When running the program, the program prompts you to give a filename, file path or folder path. The program only accepts plaintext files (.txt).
+The program reads files and uses them to train itself to generate text. When running the program, the program prompts you to give a filename, file path or folder path. The program only accepts plaintext files (.txt), and you should include the extension in the filename.
 
-In the configuration option, you can set a 'default file' for the program. This must be the full path to a file or to a folder. If you give a path to a folder, this is the default folder the program searches for files inputted by you, if you input only the filename + extension, and not a path. By default, this default path is the path to the folder named 'data' inside the project folder.
+In the configuration option, you can set a 'default path' for the program. This must be the full path to a file or to a folder. If you give a path to a folder, this is the default folder the program searches for files inputted by you, if you input only the filename + extension. The program can also find files in the current directory by name + extension alone.
 
 If the default path has been set, you can leave the filepath prompt empty by pressing enter.
 
