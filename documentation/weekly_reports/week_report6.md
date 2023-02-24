@@ -1,7 +1,7 @@
 # Week report
 Week 6
 
-Hours: 10
+Hours: 12
 
 ## What did I do?
 This week I proofed the program against errors, and added the possibility to use several files as the corpus. I also end-to-end tested the program a lot and made many small improvements.
