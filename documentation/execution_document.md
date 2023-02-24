@@ -78,10 +78,19 @@ for i in range(len(next_words)):
 ```
 The iteration exist to get allow the insertion of an unwanted quote mark in the sentence, if it is the only currently available candidate for the next 'word' (or token). The range gives the code as many tries as there are these candidates to take a weighted random choice. If the first choice is an unwanted quote mark, a new choice is made, until the code either finds a more suitable next word, or  "gives up".
 
-This is probably not the neatest way to do this, but I wanted to improve the appearance of the generated text. It's the shortest solution I figured out. I also hardocoded the program to only notice the specific, unusual quotation marks that Project Gutenberg and Projekti Lönnrot use, and text with normal quote marks isn't affected at all.
+This improves the quality of the generated text a little bit, but is ugly.
+
+### Deviation from a textbook trie
+A trie's nodes usually have a terminal value, that tell whether they can end a sequence. In my program, periods, exclamation marks etc. are considered words which can be stochastically chosen in the Markov process, and these never have children. Instead of having a terminal value, ending nodes just don't have any children, thus terminating the sequence.
+
+A proper trie contains a dictionary, lookup table etc. of its children, and this dictionary has keys for all the symbols of the alphabet used. If a certain symbol can't follow the current one, its dictionary key refers to a void value. However, when the alphabet is a large subset of all words in a natural language, creating these dicts is very time-consuming, so I decided to include only existent children in the dict.
+
+I also added the nodes an attribute named value, which is the node's symbol. The value should be implicit in the node's position inside the trie, so this is a bit of a lazy approach.
+
+### Long execution time
+If the corpus is large, e.g. contains several novels, the program's excecution takes several seconds. 
 
 ## References
 https://en.wikipedia.org/wiki/Markov_chain
 https://en.wikipedia.org/wiki/Trie
 https://bespoyasov.me/blog/text-generation-with-markov-chains/
-https://replit.com/talk/learn/ANSI-Escape-Codes-in-Python/22803
