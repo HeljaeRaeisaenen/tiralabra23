@@ -58,7 +58,7 @@ Next the program searches the trie an unknown amount of times. The search-method
 All in all, the time complexity of the implemented trie should be O(n).
 
 ## Corpus
-I've built this program using txt-format e-books as its corpora. Books like this can easily be found on the websites of Project Gutenberg and Projekti Lönnrot. Any plain text file should be good to use with this program, but note that the program isn't prepared to parse URLs and that some types of texts with might behave funny.
+I've built this program using txt-format e-books as its corpora. Books like this can easily be found on the websites of Project Gutenberg and Projekti Lönnrot. Any plain text file should be good to use with this program, but note that the program isn't prepared to parse URLs and expects the text to contain sentences.
 
 ## Quality issues
 
