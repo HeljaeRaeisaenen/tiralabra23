@@ -6,13 +6,11 @@ class Node:
     Attributes:
         children: child nodes of the node
         value: the word associated with the node
-        terminal: True if the node's word can end a sentence
         freq: the number of times this word appeared in its context in the source material'''
 
-    def __init__(self, value=None, terminal=False):
+    def __init__(self, value=None):
         self.children = {}
         self.value = value
-        self.terminal = terminal  # this isn't realöy needed
         self.freq = 0
 
     def give_children(self):
@@ -39,8 +37,7 @@ class Trie:
 
     def fill_with_words(self):
         '''Populate the trie with the source material. Adds rules of the Markov process to the
-        trie. Makes testing easier to have an empty trie
-        at first.'''
+        trie. Makes testing easier to have an empty trie at first.'''
         for sentence in constants.SENTENCES:
             start_i = 0
             for i in range(self.degree+1, len(sentence)+1):
@@ -49,7 +46,7 @@ class Trie:
                 start_i += 1
 
     def insert(self, key):
-        '''Insert a list of words into the trie
+        '''Insert a list of words into the trie.
         Args:
             key: the list to be inserted'''
         node = self.root
@@ -61,7 +58,6 @@ class Trie:
                 # print('added ',node.children[word])
             node = node.children[word]
             node.freq += 1
-        # node.terminal = True
         # print('root ',self.root)
 
     def search(self, key: list):
@@ -69,7 +65,7 @@ class Trie:
         Args:
             key: a list of strings
         Returns:
-            the children of the last word of the key, or False is key is not found'''
+            the children of the last word of the key, or False is key is not found.'''
         node = self.root
         for word in key:
             if word not in node.children:

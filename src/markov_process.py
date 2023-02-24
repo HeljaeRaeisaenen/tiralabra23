@@ -144,6 +144,7 @@ class Markov:
         '''Get a random word of the alphabet that can start a three-word 'rule'.
         Returns: string'''
         possible_starts = self.trie.root.give_children()
+
         chosen = choices(possible_starts, k=1)[0]
 
         return chosen.value
@@ -151,7 +152,3 @@ class Markov:
     def flip_quote_flag(self):
         '''Called when a quote mark is added to the sentence being generated.'''
         self._open_quote = not self._open_quote
-
-
-if __name__ == '__main__':
-    pass

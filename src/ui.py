@@ -6,9 +6,16 @@ from markov_process import Markov
 
 
 class UI:
+    '''Class for the UI and for orchestrating program execution.
+    Attributes:
+        _degree: The degree of the Markov chain to be used, given by user, int
+        _starting_word: The word with which to start the generated sentence, given by user, str
+        _default_file: Path to a file or folder, str
+        _ansi_codes: A dict for storing ansi text modifying codes'''
+
     def __init__(self):
-        self._degree = None
-        self._starting_word = None
+        self._degree = 2
+        self._starting_word = ''
         try:
             self._default_file = dotenv_values('.env')['DEFAULT_FILEPATH']
         except KeyError:
@@ -20,6 +27,8 @@ class UI:
             'reset': "\u001b[0m"}
 
     def run(self):
+        '''The backbone of the program, called when it's started.'''
+
         print('\nWelcome to the Markov chain text generator!\n')
         while True:
             command = self._instructions()
@@ -33,12 +42,23 @@ class UI:
                 return
 
     def _configure(self):
+        '''Set the default filepath, and verify that it exists.'''
+
         file = input('Path or name of a file or folder: ')
+
+        file = Path(file)
+
+        if not file.exists():
+            self._print_warning("The file or folder doesn't seem to exist.")
+            return
+
         with open(".env", 'w', encoding='utf-8') as env:
             env.write(f"DEFAULT_FILEPATH={file}")
-        self._default_file = file
+        self._default_file = str(file)
 
     def _start_generation_process(self):
+        '''Initiate a state of the program, where the generation process is started.'''
+
         while True:
             success = self._open_file()
             if not success:
@@ -78,13 +98,12 @@ class UI:
     def _get_degree(self):
         degree = input('Give degree: ')
         if not degree:
-            degree = 2
+            return
         try:
             self._degree = int(degree)
         except ValueError:
-            self._degree = 2
             self._print_warning("'Degree' must be a number")
-            return
+            self._get_degree()
 
     def _get_word(self):
         try:
@@ -103,19 +122,29 @@ class UI:
             number_validated = int(number)
             return number_validated
         except ValueError:
-            self._print_warning(f'{number} is not a number.')
-            return 1
+            self._print_warning(f'{number} is not a number (integer).')
+            return self._get_amount()
 
     def _get_sentence(self):
-        if not self._degree and not self._starting_word:
-            return False
+        '''Initiate the actual Markov process and receive the generated sentence.
+        Returns:
+            sentence: if operation success, return a generated sentence (str), otherwise
+            return False.'''
+
+    #    if not self._degree and not self._starting_word:
+    #        return False
         trie = Trie(Node(), self._degree)
         trie.fill_with_words()
+
+        if len(trie.root.give_children()) == 0:
+            self._print_warning(
+                '\nThere was an error, likely due to a too big degree value. Please try again.\n')
+            return False
 
         mark = Markov(trie)
         sentence = mark.generate_sentence(self._starting_word, self._degree)
         if not sentence:
-            print('\nTry another word or phrase\n')
+            print('\nTry another word or phrase.\n')
             return False
 
         sentence = self._ansi_wrap(sentence, 'bold')
@@ -149,8 +178,7 @@ class UI:
             "     - When you press s and start the generation, you can give parameters.",
             "     - They're all optional if a default file/folder is set (read on).",
             "     - The path must be given as an absolute path, UNLESS the file is in the current",
-            "     folder or the folder set as default."
-            "     folder (see user instructions: [link]).",
+            "     folder or the folder set as default",
             "     - The files must contain text that consists of sentences, e.g. prose or news.",
             "     - 'Degree' means how long 'chains' the program uses, a degree of 5 or less is",
             "     recommended.",
@@ -166,9 +194,7 @@ class UI:
 
     @staticmethod
     def main():
+        '''Allows the execution to be started neatly outside of the module. The class takes no
+        params, so this is neat.'''
         ui_thing = UI()
         ui_thing.run()
-
-
-def notify_user_of_filepath(path):
-    print('     Generating from: ', path)
