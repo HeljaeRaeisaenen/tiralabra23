@@ -1,4 +1,4 @@
-# Execution documentation
+# Implementation documentation
 ## Architecture
 The program's logical structure is illustrated below.
 
@@ -47,18 +47,18 @@ classDiagram
   ```
 
 ## Time complexity analysis
-A good trie works in linear time in the worst-case scenario.
+A trie should work in linear time in the worst-case scenario. In big-O notation, this is O(n).
 
 Analysis:
 
-The program uses trie. The trie consists of nodes. The children of each node are in a lookup table of the node, so accessing them happens in constant time. The trie is created for the Markov process in index.py. There, it is given an empty node as its root. Next, the trie is populated with rules for the Markov process. The rules are lists of lenght degree+1, when degree is the degree of the Markov process. The trie's method `fill_with_words()` iterates through the corpus in a for-loop, which is a linear-time operation. The method has two nested for-loops, but the inner doesn't iterate the whole material, preserving the linear time complexity. This method uses another method of the trie, `insert()`. It searches the trie for each rule, which is relatively quick and doesn't affect the time complexity, as the rules are supposed to be degree+1 in length.
+The program uses trie. The trie consists of nodes. The children of each node are in a lookup table of the node, so accessing them happens in constant time. The trie is created for the Markov process in class UI, method `_get_sentence()`. There, it is given an empty node as its root. Next, the trie is populated with rules for the Markov process. The rules are lists of lenght degree+1, when degree is the degree of the Markov process. The trie's method `fill_with_words()` iterates through the tokenized corpus in a for-loop, which is a linear-time operation. The method has two nested for-loops, but the inner doesn't iterate the whole material, preserving the linear time complexity. This method uses another method of the trie, `insert()`. It searches the trie for each rule, which is relatively quick and doesn't affect the time complexity, as the rules are supposed to be degree+1 in length.
 
 Next the program searches the trie an unknown amount of times. The search-method of the trie traverses the trie, accessing each node's children via the lookup table. This happens in linear time, as the search key is iterated through once.
 
 All in all, the time complexity of the implemented trie should be O(n).
 
 ## Corpus
-I've built this program using txt-format e-books as its corpora. Books like this can easily be found on the websites of Project Gutenberg and Projekti Lönnrot. Any plain text file should be good to use with this program, but note that the program isn't prepared to parse URLs and expects the text to contain sentences.
+I've built this program using txt-format e-books as its corpora. Books like this can easily be found on the websites of Project Gutenberg and Projekti Lönnrot, but I assume any plaintext natural language should work. However, the program isn't prepared to parse URLs and expects the text to be divided into sentences that end with a period, question- or exclamatoin mark.
 
 ## Quality issues
 
@@ -78,7 +78,7 @@ for i in range(len(next_words)):
 ```
 The iteration exist to get allow the insertion of an unwanted quote mark in the sentence, if it is the only currently available candidate for the next 'word' (or token). The range gives the code as many tries as there are these candidates to take a weighted random choice. If the first choice is an unwanted quote mark, a new choice is made, until the code either finds a more suitable next word, or  "gives up".
 
-This improves the quality of the generated text a little bit, but is ugly.
+This improves the quality of the generated text a little bit, but makes the code more complicated and probably harder to read.
 
 ### Deviation from a textbook trie
 A trie's nodes usually have a terminal value, that tell whether they can end a sequence. In my program, periods, exclamation marks etc. are considered words which can be stochastically chosen in the Markov process, and these never have children. Instead of having a terminal value, ending nodes just don't have any children, thus terminating the sequence.
@@ -88,7 +88,7 @@ A proper trie contains a dictionary, lookup table etc. of its children, and this
 I also added the nodes an attribute named value, which is the node's symbol. The value should be implicit in the node's position inside the trie, so this is a bit of a lazy approach.
 
 ### Long execution time
-If the corpus is large, e.g. contains several novels, the program's excecution takes several seconds. 
+If the corpus is large, e.g. contains several novels, the program's excecution takes several seconds. This could be improved, for example by reaading the corpus and populating the trie only on program start, and then allowing the user to generate many sentences with different parameters.
 
 ## References
 https://en.wikipedia.org/wiki/Markov_chain

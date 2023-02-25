@@ -102,7 +102,7 @@ class UI:
         try:
             self._degree = int(degree)
         except ValueError:
-            self._print_warning("'Degree' must be a number")
+            self._print_warning("'Degree' must be a number (integer)")
             self._get_degree()
 
     def _get_word(self):
@@ -131,8 +131,6 @@ class UI:
             sentence: if operation success, return a generated sentence (str), otherwise
             return False.'''
 
-    #    if not self._degree and not self._starting_word:
-    #        return False
         trie = Trie(Node(), self._degree)
         trie.fill_with_words()
 

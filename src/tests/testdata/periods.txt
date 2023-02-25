@@ -1,4 +1,4 @@
 This text contains periods e.g. in names like Dr. A. and Mr. Smith.
 It also contains “quotes”, so to speak.
 Some “quotes appear erratically.
-Some quotes” don't, usually.
+Some quotes don't”, usually.

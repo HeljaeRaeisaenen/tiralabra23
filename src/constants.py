@@ -4,7 +4,7 @@ from read_file import read_file
 
 
 def initialize(path):
-    '''Get the sentences in the text file at path. Make a sentences list and an alphabet.
+    '''Get the sentences in the text file at path. Set constants: a sentences list and an alphabet.
     Args:
         path = path to a file/folder to be read
     Raises:

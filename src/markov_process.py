@@ -102,9 +102,7 @@ class Markov:
 
         if len(start) == 0:
             start = self.random_word()
-        # print('starting word:', start)
         start = split_into_words(start)
-        # print('starting word split:', start)
 
         validated = []
         for word in start:
@@ -121,7 +119,7 @@ class Markov:
         return validated
 
     def format_sentence(self, sentence: list):
-        '''Turn the generated list of words into a string structured like a sentence
+        '''Turn the generated list of words into a string structured like a sentence.
         Args:
             sentence: list of strings
         Returns:

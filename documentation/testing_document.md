@@ -3,7 +3,7 @@
 This project uses automated and end-to-end testing.
 
 ## Automated testing
-Automated testing is done with the pytest library. The three main modules of the program, trie, markov_process and read_file, are tested this way.
+Automated testing is done with the pytest library. The three main modules of the program, trie, markov_process and read_file, are tested this way. The tests can be replicated by installing poetry dependencies and runnin `poetry run invoke test`.
 
 ![test coverage](https://user-images.githubusercontent.com/94612974/216774955-ddb1bb55-972c-4fd7-aa2e-e3a327fbef8c.png)
 
@@ -23,8 +23,10 @@ A Markov process shouldn't be determenistic, it shouldn't create the same senten
 
 The Markov process depends on the trie, and if the trie works as intended, much of the validity of the Markov process is covered by that alone.
 
+The somewhat hard-coded quote control is also tested partially.
+
 ### Corpus processing tests
-The program depends on one ugly function to parse a .txt-file into a usable form. This function, in the read_file module, called `split_into_sentences` is also tested. Its testing is mostly concerned with whether the processed sentences of the corpus are start and end at their actual starts and ends, whether periods inside sentences do not break a sentence, and whether punctuation marks are noticed and considered as their own 'words' (tokens).
+The program depends on one ugly function to parse a .txt-file into a usable form. This function, in the read_file module, called `split_into_sentences` is also tested. Its testing is mostly concerned with whether the processed sentences of the corpus start and end at their actual starts and ends, whether periods inside sentences do not break a sentence, and whether punctuation marks are noticed and considered as their own 'words' (tokens). The feature that allows a directory's contents to be used as a corpus is also tested.
 
 ## End-to-end testing
 I run the program with numerous print statements and assess its output. The print statements lay out the execution of the Markov process, including the set of choices available at each step, and the structure of the trie in use, and with repetitions I can confirm whether the program is working as intended. With this kind of testing, I can reassure the text generation is not deterministic and can find bugs and unintended behaviour.
@@ -32,3 +34,5 @@ I run the program with numerous print statements and assess its output. The prin
 The corpora used in end-to-end testing consists of full-sized books in Finnish and English. I let the program randomly decide its starting word.
 
 End-to-end testing can be replicated editing the source code to un-comment all commented print statements, and then running the program. 
+
+The UI is also tested in this way, and there are no unit tests for it.

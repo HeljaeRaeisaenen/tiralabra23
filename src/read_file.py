@@ -2,7 +2,7 @@ import re
 from pathlib import Path
 
 # 'borrowed' and modified code from: https://stackoverflow.com/a/31505798
-# written by 'D. Greenberg', 'a.t. and 'Sisay Chala'
+# written by 'D. Greenberg', 'a.t.' and 'Sisay Chala'
 # begin
 # -*- coding: utf-8 -*-
 
@@ -25,6 +25,7 @@ def split_into_sentences(text):
     digits = "([0-9])"
     text = " " + text + "  "
     text = text.replace("\n", " ")
+    text = text.replace('_', '')
     text = re.sub(prefixes, "<wspc>\\1<prd><wspc>", text)
     text = re.sub(websites, "<wspc><prd>\\1<wspc>", text)
     text = re.sub(digits + "[.]" + digits, "<wspc>\\1<prd>\\2<wspc>", text)
@@ -88,8 +89,6 @@ def read_file(path):
     try:
         with open(path, encoding='utf-8') as file:
             file = file.read()
-            file = file.replace('_', '')
-
             sentences = split_into_sentences(file)
         return sentences
     except IsADirectoryError:
@@ -97,7 +96,7 @@ def read_file(path):
 
 
 def read_folder(path):
-    '''Reads all .txt files in the given directory.'''
+    '''Reads all .txt files in a given directory.'''
     path = Path(path).resolve()
 
     files = Path(path).glob('*.txt')
@@ -126,6 +125,7 @@ def split_into_words(text):
     # turn punctuation chars into their own 'words'
     for mark in punctuation:
         text = text.replace(mark, '<wspc>'+mark+'<wspc>')
+
     text = text.replace(' ', '<wspc>')
     text = [word for word in text.split('<wspc>') if word]
 

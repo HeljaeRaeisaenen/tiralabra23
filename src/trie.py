@@ -58,7 +58,6 @@ class Trie:
                 # print('added ',node.children[word])
             node = node.children[word]
             node.freq += 1
-        # print('root ',self.root)
 
     def search(self, key: list):
         '''Search trie by a list of words.
