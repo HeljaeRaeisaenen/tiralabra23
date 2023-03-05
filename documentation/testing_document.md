@@ -25,6 +25,9 @@ The Markov process depends on the trie, and if the trie works as intended, much 
 
 The somewhat hard-coded quote control is also tested partially.
 
+#### Nondeterminism in Markov process tests
+At least the test `test_quote_control_works` sometimes covers a few lines more than other times. The test always passes, but the lines of the Markov class it covers tended to change. This has lead to the CI failing, since the coverage of the tests appears to change randomly. I remedied this by changing the test material it uses, possibly weakening the power of the test, but the updated test material resembles real corpus material enough for this to not be an issue, hopefully. I doubt I could make the hacky quote control more deterministic just for the sake of a test. The issue might still persist, but at least it's rarer now.
+
 ### Corpus processing tests
 The program depends on one ugly function to parse a .txt-file into a usable form. This function, in the read_file module, called `split_into_sentences` is also tested. Its testing is mostly concerned with whether the processed sentences of the corpus start and end at their actual starts and ends, whether periods inside sentences do not break a sentence, and whether punctuation marks are noticed and considered as their own 'words' (tokens). The feature that allows a directory's contents to be used as a corpus is also tested.
 
