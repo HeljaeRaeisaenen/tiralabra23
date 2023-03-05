@@ -92,5 +92,7 @@ If the corpus is large, e.g. contains several novels, the program's excecution t
 
 ## References
 https://en.wikipedia.org/wiki/Markov_chain
+
 https://en.wikipedia.org/wiki/Trie
+
 https://bespoyasov.me/blog/text-generation-with-markov-chains/
