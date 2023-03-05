@@ -5,7 +5,7 @@ This project uses automated and end-to-end testing.
 ## Automated testing
 Automated testing is done with the pytest library. The three main modules of the program, trie, markov_process and read_file, are tested this way. The tests can be replicated by installing poetry dependencies and runnin `poetry run invoke test`.
 
-![test coverage](https://user-images.githubusercontent.com/94612974/216774955-ddb1bb55-972c-4fd7-aa2e-e3a327fbef8c.png)
+![coverage report](https://user-images.githubusercontent.com/94612974/222955792-09d594b6-0076-4765-ae87-df35823d8d57.png)
 
 The tests can be replicated by running `poetry run invoke test` in the repository's root folder. The tests are also ran each time a commit is added or pushed on the GitHub page.
 
